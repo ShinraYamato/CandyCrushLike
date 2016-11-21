@@ -17,6 +17,7 @@ public class VueCrush extends JPanel implements ActionListener {
     private static Integer Taille = 10;
     private JButton[] btn = new JButton[Taille*Taille];
     Random rnd;
+    private int  lastID = -1;
     public VueCrush(Random rnd) {
 // utilisation d'un GridLayout comme "layout"
         super(new GridLayout(Taille, Taille));
@@ -24,7 +25,7 @@ public class VueCrush extends JPanel implements ActionListener {
         this.rnd = rnd;
         for(int j=0;j<dim;j++) { // boucle d'ajout des boutons
             btn[j] = new JButton(new ImageIcon(new
-                    ImageIcon(Letter[rnd.nextInt(Letter.length)]).getImage().
+                    ImageIcon("images/"+Letter[rnd.nextInt(Letter.length)]).getImage().
                     getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
             btn[j].setName(String.valueOf(j));
             btn[j].addActionListener(this);
@@ -33,5 +34,12 @@ public class VueCrush extends JPanel implements ActionListener {
         }
     }
     public void actionPerformed(ActionEvent e) {
+        System.out.println();
+
+        if(((JButton) e.getSource()).getName().equals("3")){
+            lastID = i;
+            System.out.println("derp");
+        }
+        lastID = btn[((JButton) e.getSource()).getName()];
     }
 }
