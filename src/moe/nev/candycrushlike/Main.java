@@ -18,5 +18,6 @@ public class Main {
         f.setSize(800,800);
         f.setVisible(true);
         f.setLocationRelativeTo(null);
+
     }
 }
