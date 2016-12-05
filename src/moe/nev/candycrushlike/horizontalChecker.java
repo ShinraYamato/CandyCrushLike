@@ -7,27 +7,50 @@ import javax.swing.*;
  */
 public class horizontalChecker extends checker{
 
-    public horizontalChecker(Integer isRunningP, Integer scoreP, JButton[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, gravityPower destroyerP, Integer isDeletingP) {
-        super(isRunningP, scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP, true, destroyerP, isDeletingP);
+    public horizontalChecker(Integer isRunningP, Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, gravityPower destroyerP) {
+        super(isRunningP, scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP);
     }
 
     public void run(){
-        while (isRunning==1){
-            for (int i = 0; i < width; i++) {
+        System.out.println(getRowID() + "status: " +isRunning());
+        while (this.isRunning()){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < this.getWidth(); i++) {
                 if (toDelete.isEmpty()){
-                    toDelete.add(btn[rowID*width+i]);
-                }
-                if (toDelete.get(toDelete.size()).getIcon().equals(btn[rowID*width+i].getIcon())){
-                    toDelete.add(btn[rowID*width+i]);
-                    if (toDelete.size()>=2){
-                        isDeleting=1;
-                        destroyer.setToDelete(this);
-                    }
+                    toDelete.add(btn[this.getRowID()*this.getWidth()+i]);
+                    setFirstDetected(i);
                 } else {
-                    toDelete.removeAll(toDelete);//a vérifier
-                    toDelete.add(btn[rowID*width+i]);
+                    //System.out.println("toDelete size: " + toDelete.size() + "access at:" + (rowID * this.getWidth() + (i-1)));
+                    if (toDelete.get(toDelete.size()-1).getButtonType().equals(btn[this.getRowID() * this.getWidth() + i].getButtonType())) {
+                        toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
+
+                    } else {
+                        if (toDelete.size() >= 3) {
+                            setLastDetected(i);
+                            System.out.println("detected");
+                            destroyer.setToDelete(this);
+
+                            System.out.println("applied");
+                        }
+                        toDelete.removeAll(toDelete);//a vérifier
+                        toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
+                        setFirstDetected(i);
+                    }
                 }
             }
+            if (toDelete.size() >= 3) {
+                setLastDetected(this.getWidth());
+                System.out.println("detected");
+                destroyer.setToDelete(this);
+
+                System.out.println("applied");
+            }
+            toDelete.removeAll(toDelete);//a vérifier
         }
+        System.out.println(this.getRowID() + "status: " +isRunning());
     }
 }

@@ -7,24 +7,23 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import moe.nev.candycrushlike.*;
 
 import static java.lang.Math.abs;
 
 public class VueCrush extends JPanel implements ActionListener {
-    private static final String[] Letter = { "bird.png", "cricket.png",
+    private static final String[] Letter = { "bird.png" , "cricket.png",
             "elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
             "gnome_panel_fish.png","pig.png", "kbugbuster.png"};
     private int lastClickedID = -1;
-    private static Integer Taille = 10;
-    private JButton[] btn = new JButton[Taille*Taille];
+    private static Integer Taille = 4;
+    private candyButtons[] btn = new candyButtons[Taille*Taille];
     Random rnd;
-
-    private int lastID = -1;
     private Integer isRunning;
     private Integer score;
-    private verticalChecker[] vChecker;
-    private horizontalChecker[] hChecker;
+    private Thread[] vChecker = new Thread[Taille*Taille];
+    private Thread[] hChecker = new Thread[Taille*Taille];
+    private Thread destroyerT = new Thread();
+    private gravityPower destroyer;
 
     public VueCrush(Random rnd) {
 // utilisation d'un GridLayout comme "layout"
@@ -32,29 +31,36 @@ public class VueCrush extends JPanel implements ActionListener {
         int dim = Taille*Taille;
         this.rnd = rnd;
         for(int j=0;j<dim;j++) { // boucle d'ajout des boutons
-            btn[j] = new JButton(new ImageIcon(new
-                    ImageIcon("images/"+Letter[rnd.nextInt(Letter.length)]).getImage().
+            btn[j] = new candyButtons(null, j, Letter[rnd.nextInt(Letter.length)]);
+            btn[j].setIcon(new ImageIcon(new
+                    ImageIcon("images/"+btn[j].getButtonType()).getImage().
                     getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
-            btn[j].setName(String.valueOf(j));
             btn[j].addActionListener(this);
             // enregistrement de l'ecouteur
             this.add(btn[j]); // ajout du bouton a ce JPanel
         }
+        isRunning = 1;
+        score = 0;
+        destroyer = new gravityPower(isRunning, rnd);
+        destroyerT = new Thread(destroyer);
+        destroyerT.start();
         for (int j=0;j<Taille;j++){
-            vChecker[j] = new verticalChecker(1,score, btn, Letter, Taille, Taille, j);
-            hChecker[j] = new horizontalChecker(1,score, btn, Letter, Taille, Taille, j);
+            vChecker[j] = new Thread(new verticalChecker(isRunning, score, btn, Letter, Taille, Taille, j, destroyer));
+            hChecker[j] = new Thread(new horizontalChecker(isRunning, score, btn, Letter, Taille, Taille, j, destroyer));
+            //vChecker[j].start();
+            hChecker[j].start();
         }
     }
     public void actionPerformed(ActionEvent e) {
-        Icon tmp;
         if (lastClickedID < 0){
-            lastClickedID = Integer.valueOf(((JButton) e.getSource()).getName());
-        } else if (neighbourByName(btn[lastClickedID], (JButton)e.getSource())){
-            swapIcon(btn[lastClickedID], (JButton)e.getSource());
+            lastClickedID = ((candyButtons) e.getSource()).getButtonID();
+        } else if (neighbourByName(btn[lastClickedID], (candyButtons)e.getSource())){
+            swapIcon(btn[lastClickedID], (candyButtons) e.getSource());
             lastClickedID = -1;
         } else {
             lastClickedID = -1;
         }
+        isRunning = 0;
     }
 
     /**
@@ -63,11 +69,11 @@ public class VueCrush extends JPanel implements ActionListener {
      * @param b
      * @return oui ou non
      */
-    public boolean neighbourByName(JButton a, JButton b){
-        return (abs(Integer.valueOf(a.getName())-Integer.valueOf(b.getName()))==(1))||(abs(Integer.valueOf(a.getName())-Integer.valueOf(b.getName()))==(Taille));
+    public boolean neighbourByName(candyButtons a, candyButtons b){
+        return ((abs(a.getButtonID()-b.getButtonID())==(1))||abs(a.getButtonID()-b.getButtonID())==(Taille));
     }
 
-    public void swapIcon(JButton a, JButton b){
+    public void swapIcon(candyButtons a, candyButtons b){
         Icon tmp = a.getIcon();
         a.setIcon(b.getIcon());
         b.setIcon(tmp);

@@ -7,13 +7,11 @@ import javax.swing.*;
  */
 public class verticalChecker extends checker{
 
-    public verticalChecker(Integer isRunningP, Integer scoreP, JButton[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP) {
-        super(isRunningP, scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP);
+    public verticalChecker(Integer isRunningP, Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, gravityPower destroyerP) {
+        super(isRunningP, scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP);
     }
 
-    public synchronized void run(){
-        for (int i = 0; i < btn.length;i++){
+    public void run(){
 
-        }
     }
 }

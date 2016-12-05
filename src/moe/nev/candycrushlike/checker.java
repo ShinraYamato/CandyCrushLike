@@ -7,18 +7,18 @@ import java.util.ArrayList;
  * Created by Shinra on 28.11.16.
  */
 public abstract class checker implements Runnable {
-    protected Integer isRunning;
+    private Integer isRunning;
     protected Integer score;
-    protected JButton[] btn;
+    protected candyButtons[] btn;
     protected String[] Letter;
-    protected Integer width, height;
-    protected int rowID;
-    protected boolean line;
-    protected ArrayList<JButton> toDelete;
+    private Integer width, height;
+    private int rowID;
+    protected ArrayList<candyButtons> toDelete;
     protected gravityPower destroyer;
-    protected Integer isDeleting;
+    private int firstDetected;
+    private int lastDetected;
 
-    public checker(Integer isRunningP, Integer scoreP, JButton[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, boolean lineP, gravityPower destroyerP,Integer isDeletingP){
+    public checker(Integer isRunningP, Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, gravityPower destroyerP){
         this.isRunning = isRunningP;
         this.score = scoreP;
         this.btn = btnP;
@@ -26,10 +26,46 @@ public abstract class checker implements Runnable {
         this.width = widthP;
         this.height = heightP;
         this.rowID = rowIDP;
-        this.line = lineP;
         this.toDelete = null;
         this.destroyer = destroyerP;
         toDelete = new ArrayList<>();
-        this.isDeleting = isDeletingP;
+        resetDetection();
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public boolean isRunning() {
+        return (isRunning > 0);
+    }
+
+    public int getRowID() {
+        return rowID;
+    }
+
+    public void resetDetection(){
+        firstDetected = -1;
+        lastDetected = -1;
+    }
+
+    public int getFirstDetected() {
+        return firstDetected;
+    }
+
+    public int getLastDetected() {
+        return lastDetected;
+    }
+
+    public void setFirstDetected(int firstDetected) {
+        this.firstDetected = firstDetected;
+    }
+
+    public void setLastDetected(int lastDetected) {
+        this.lastDetected = lastDetected;
     }
 }
