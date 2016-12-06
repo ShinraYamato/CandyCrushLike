@@ -12,10 +12,10 @@ public class horizontalChecker extends checker{
     }
 
     public void run(){
-        System.out.println(getRowID() + "status: " +isRunning());
-        while (this.isRunning()){
+        //System.out.println(getRowID() + "status: " +isRunning());
+        while (isRunning()){
             try {
-                Thread.sleep(100);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -29,8 +29,8 @@ public class horizontalChecker extends checker{
                         toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
 
                     } else {
-                        if (toDelete.size() >= 3) {
-                            setLastDetected(i);
+                        if (toDelete.size() >= 2) {
+                            setLastDetected(i-1);
                             System.out.println("detected");
                             destroyer.setToDelete(this);
 
@@ -42,8 +42,8 @@ public class horizontalChecker extends checker{
                     }
                 }
             }
-            if (toDelete.size() >= 3) {
-                setLastDetected(this.getWidth());
+            if (toDelete.size() >= 2) {
+                setLastDetected(this.getWidth()-1);
                 System.out.println("detected");
                 destroyer.setToDelete(this);
 

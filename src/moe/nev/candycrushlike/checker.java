@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Created by Shinra on 28.11.16.
  */
 public abstract class checker implements Runnable {
-    private Integer isRunning;
+    private int isRunning;
     protected Integer score;
     protected candyButtons[] btn;
     protected String[] Letter;

@@ -15,7 +15,7 @@ public class gravityPower implements Runnable{
     private Random rnd;
 
     public gravityPower(Integer isRunningP, Random rndP){
-        System.out.println("derpC");
+        System.out.println("checker init");
         this.isRunning = isRunningP;
         this.antiCollider = new Semaphore(1);
         this.toDelete = null;
@@ -24,12 +24,12 @@ public class gravityPower implements Runnable{
 
     public void setToDelete(checker toDelete) {
         try {
-            System.out.println("derpData");
+            System.out.println("checker received data");
             this.antiCollider.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("derpDataA");
+        System.out.println("checker record data");
         this.toDelete = toDelete;
     }
 
@@ -38,27 +38,28 @@ public class gravityPower implements Runnable{
     }
 
     public void run(){
-        System.out.println("derp");
+        System.out.println("checker is running");
         while (isRunning==1){
             if (toDelete!=null){
                 if (toDelete instanceof verticalChecker){
-                    System.out.println("sup v");
+                    System.out.println("checker sup v");
                 }
                 if (toDelete instanceof horizontalChecker){
-                    System.out.println("sup h");
+                    System.out.println("checker sup h");
                     suppressionH();
                 }
                 toDelete = null;
                 antiCollider.release();
-                System.out.println("releaseD");
+                System.out.println("checker released data");
             }
         }
     }
 
     private void suppressionH(){
         for (int i=toDelete.getFirstDetected();i<toDelete.getLastDetected();i++){
-            for (int j=toDelete.getRowID();j>1;j--){
+            for (int j=toDelete.getRowID();j>0;j--){
                 toDelete.btn[idFromXY(i,j)].setIcon(toDelete.btn[idFromXY(i,j-1)].getIcon());
+                toDelete.btn[idFromXY(i,j)].setButtonType(toDelete.btn[idFromXY(i,j-1)].getButtonType());
             }
             toDelete.btn[idFromXY(i,0)].setButtonType(toDelete.Letter[rnd.nextInt(toDelete.Letter.length)]);
             toDelete.btn[idFromXY(i,0)].setIcon(new ImageIcon(new

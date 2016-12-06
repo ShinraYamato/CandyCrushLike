@@ -11,11 +11,11 @@ import javax.swing.*;
 import static java.lang.Math.abs;
 
 public class VueCrush extends JPanel implements ActionListener {
-    private static final String[] Letter = { "bird.png" , "cricket.png",
-            "elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
-            "gnome_panel_fish.png","pig.png", "kbugbuster.png"};
+    private static final String[] Letter = { "bird.png" , "cricket.png"};
+            //,"elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
+            //"gnome_panel_fish.png","pig.png", "kbugbuster.png"};
     private int lastClickedID = -1;
-    private static Integer Taille = 4;
+    private static Integer Taille = 2;
     private candyButtons[] btn = new candyButtons[Taille*Taille];
     Random rnd;
     private Integer isRunning;
@@ -26,7 +26,7 @@ public class VueCrush extends JPanel implements ActionListener {
     private gravityPower destroyer;
 
     public VueCrush(Random rnd) {
-// utilisation d'un GridLayout comme "layout"
+    // utilisation d'un GridLayout comme "layout"
         super(new GridLayout(Taille, Taille));
         int dim = Taille*Taille;
         this.rnd = rnd;
@@ -36,7 +36,7 @@ public class VueCrush extends JPanel implements ActionListener {
                     ImageIcon("images/"+btn[j].getButtonType()).getImage().
                     getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
             btn[j].addActionListener(this);
-            // enregistrement de l'ecouteur
+             // enregistrement de l'ecouteur
             this.add(btn[j]); // ajout du bouton a ce JPanel
         }
         isRunning = 1;
