@@ -11,14 +11,14 @@ public abstract class checker implements Runnable {
     protected Integer score;
     protected candyButtons[] btn;
     protected String[] Letter;
-    private Integer width, height;
+    private int width, height;
     private int rowID;
     protected ArrayList<candyButtons> toDelete;
     protected gravityPower destroyer;
     private int firstDetected;
     private int lastDetected;
 
-    public checker(Integer isRunningP, Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, gravityPower destroyerP){
+    public checker(int isRunningP, Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, gravityPower destroyerP){
         this.isRunning = isRunningP;
         this.score = scoreP;
         this.btn = btnP;
@@ -30,6 +30,10 @@ public abstract class checker implements Runnable {
         this.destroyer = destroyerP;
         toDelete = new ArrayList<>();
         resetDetection();
+    }
+
+    public void isRunning(int isRunning) {
+        this.isRunning = isRunning;
     }
 
     public Integer getWidth() {

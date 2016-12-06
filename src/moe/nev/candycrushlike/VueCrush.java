@@ -11,11 +11,11 @@ import javax.swing.*;
 import static java.lang.Math.abs;
 
 public class VueCrush extends JPanel implements ActionListener {
-    private static final String[] Letter = { "bird.png" , "cricket.png"};
-            //,"elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
-            //"gnome_panel_fish.png","pig.png", "kbugbuster.png"};
+    private static final String[] Letter = { "bird.png" , "cricket.png"
+            ,"elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
+            "gnome_panel_fish.png","pig.png", "kbugbuster.png"};
     private int lastClickedID = -1;
-    private static Integer Taille = 2;
+    private static Integer Taille = 10;
     private candyButtons[] btn = new candyButtons[Taille*Taille];
     Random rnd;
     private Integer isRunning;
@@ -43,19 +43,21 @@ public class VueCrush extends JPanel implements ActionListener {
         score = 0;
         destroyer = new gravityPower(isRunning, rnd);
         destroyerT = new Thread(destroyer);
-        destroyerT.start();
         for (int j=0;j<Taille;j++){
             vChecker[j] = new Thread(new verticalChecker(isRunning, score, btn, Letter, Taille, Taille, j, destroyer));
             hChecker[j] = new Thread(new horizontalChecker(isRunning, score, btn, Letter, Taille, Taille, j, destroyer));
             //vChecker[j].start();
             hChecker[j].start();
         }
+        //hChecker[1] = new Thread(new horizontalChecker(isRunning, score, btn, Letter, Taille, Taille, 1, destroyer));
+        //hChecker[1].start();
+        destroyerT.start();
     }
     public void actionPerformed(ActionEvent e) {
         if (lastClickedID < 0){
             lastClickedID = ((candyButtons) e.getSource()).getButtonID();
         } else if (neighbourByName(btn[lastClickedID], (candyButtons)e.getSource())){
-            swapIcon(btn[lastClickedID], (candyButtons) e.getSource());
+            ((candyButtons) e.getSource()).exchangeButtonsData(btn[lastClickedID]);
             lastClickedID = -1;
         } else {
             lastClickedID = -1;
@@ -71,11 +73,5 @@ public class VueCrush extends JPanel implements ActionListener {
      */
     public boolean neighbourByName(candyButtons a, candyButtons b){
         return ((abs(a.getButtonID()-b.getButtonID())==(1))||abs(a.getButtonID()-b.getButtonID())==(Taille));
-    }
-
-    public void swapIcon(candyButtons a, candyButtons b){
-        Icon tmp = a.getIcon();
-        a.setIcon(b.getIcon());
-        b.setIcon(tmp);
     }
 }

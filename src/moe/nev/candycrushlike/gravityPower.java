@@ -15,7 +15,7 @@ public class gravityPower implements Runnable{
     private Random rnd;
 
     public gravityPower(Integer isRunningP, Random rndP){
-        System.out.println("checker init");
+        System.out.println("destroyer init");
         this.isRunning = isRunningP;
         this.antiCollider = new Semaphore(1);
         this.toDelete = null;
@@ -24,12 +24,12 @@ public class gravityPower implements Runnable{
 
     public void setToDelete(checker toDelete) {
         try {
-            System.out.println("checker received data");
+            System.out.println("destroyer received data");
             this.antiCollider.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("checker record data");
+        System.out.println("destroyer record data");
         this.toDelete = toDelete;
     }
 
@@ -38,25 +38,27 @@ public class gravityPower implements Runnable{
     }
 
     public void run(){
-        System.out.println("checker is running");
+        System.out.println("destroyer is running");
         while (isRunning==1){
             if (toDelete!=null){
                 if (toDelete instanceof verticalChecker){
-                    System.out.println("checker sup v");
+                    System.out.println("destroyer sup v");
                 }
                 if (toDelete instanceof horizontalChecker){
-                    System.out.println("checker sup h");
+                    System.out.println("destroyer sup h");
                     suppressionH();
                 }
                 toDelete = null;
                 antiCollider.release();
-                System.out.println("checker released data");
+                System.out.println("destroyer released data");
             }
+            //System.out.println("destroyer inside");
         }
+        System.out.println("destroyer is running");
     }
 
     private void suppressionH(){
-        for (int i=toDelete.getFirstDetected();i<toDelete.getLastDetected();i++){
+        for (int i=toDelete.getFirstDetected();i<=toDelete.getLastDetected();i++){
             for (int j=toDelete.getRowID();j>0;j--){
                 toDelete.btn[idFromXY(i,j)].setIcon(toDelete.btn[idFromXY(i,j-1)].getIcon());
                 toDelete.btn[idFromXY(i,j)].setButtonType(toDelete.btn[idFromXY(i,j-1)].getButtonType());

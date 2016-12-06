@@ -12,7 +12,7 @@ public class horizontalChecker extends checker{
     }
 
     public void run(){
-        //System.out.println(getRowID() + "status: " +isRunning());
+        System.out.println("thread :"+getRowID() + " lancé: status: " +isRunning());
         while (isRunning()){
             try {
                 Thread.sleep(5);
@@ -29,12 +29,12 @@ public class horizontalChecker extends checker{
                         toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
 
                     } else {
-                        if (toDelete.size() >= 2) {
+                        if (toDelete.size() >= 3) {
                             setLastDetected(i-1);
-                            System.out.println("detected");
+                            System.out.println("checker detected");
                             destroyer.setToDelete(this);
 
-                            System.out.println("applied");
+                            System.out.println("checker applied");
                         }
                         toDelete.removeAll(toDelete);//a vérifier
                         toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
@@ -42,15 +42,16 @@ public class horizontalChecker extends checker{
                     }
                 }
             }
-            if (toDelete.size() >= 2) {
+            if (toDelete.size() >= 3) {
                 setLastDetected(this.getWidth()-1);
-                System.out.println("detected");
+                System.out.println("checker end line detected");
                 destroyer.setToDelete(this);
 
-                System.out.println("applied");
+                System.out.println("checker end line applied");
             }
             toDelete.removeAll(toDelete);//a vérifier
+            //System.out.println("thread inside");
         }
-        System.out.println(this.getRowID() + "status: " +isRunning());
+        System.out.println("thread :"+getRowID() + " annulé: status: " +isRunning());
     }
 }
