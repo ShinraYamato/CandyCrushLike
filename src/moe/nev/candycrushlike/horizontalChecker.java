@@ -7,51 +7,52 @@ import javax.swing.*;
  */
 public class horizontalChecker extends checker{
 
-    public horizontalChecker(Integer isRunningP, Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, gravityPower destroyerP) {
-        super(isRunningP, scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP);
+    public horizontalChecker(Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, gravityPower destroyerP) {
+        super(scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP);
     }
 
     public void run(){
-        System.out.println("thread :"+getRowID() + " lancé: status: " +isRunning());
-        while (isRunning()){
+        System.out.println("thread :"+getRowID() + " lancé: status: " +destroyer.isRunning());
+        while (destroyer.isRunning()){
             try {
                 Thread.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            for (int i = 0; i < this.getWidth(); i++) {
-                if (toDelete.isEmpty()){
-                    toDelete.add(btn[this.getRowID()*this.getWidth()+i]);
-                    setFirstDetected(i);
-                } else {
-                    //System.out.println("toDelete size: " + toDelete.size() + "access at:" + (rowID * this.getWidth() + (i-1)));
-                    if (toDelete.get(toDelete.size()-1).getButtonType().equals(btn[this.getRowID() * this.getWidth() + i].getButtonType())) {
-                        toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
-
-                    } else {
-                        if (toDelete.size() >= 3) {
-                            setLastDetected(i-1);
-                            System.out.println("checker detected");
-                            destroyer.setToDelete(this);
-
-                            System.out.println("checker applied");
-                        }
-                        toDelete.removeAll(toDelete);//a vérifier
+            if (destroyer.canScan(this)) {
+                toDelete.removeAll(toDelete);
+                for (int i = 0; i < this.getWidth(); i++) {
+                    if (toDelete.isEmpty()) {
                         toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
                         setFirstDetected(i);
+                    } else {
+                        //System.out.println("toDelete size: " + toDelete.size() + "access at:" + (rowID * this.getWidth() + (i-1)));
+                        if (toDelete.get(toDelete.size() - 1).getButtonType().equals(btn[this.getRowID() * this.getWidth() + i].getButtonType())) {
+                            toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
+
+                        } else {
+                            if (toDelete.size() >= 3) {
+                                setLastDetected(i - 1);
+                                System.out.println("checker detected");
+                                destroyer.setToDelete(this);
+
+                                System.out.println("checker applied");
+                            }
+                            toDelete.removeAll(toDelete);//a vérifier
+                            toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
+                            setFirstDetected(i);
+                        }
                     }
                 }
-            }
-            if (toDelete.size() >= 3) {
-                setLastDetected(this.getWidth()-1);
-                System.out.println("checker end line detected");
-                destroyer.setToDelete(this);
+                if (toDelete.size() >= 3) {
+                    setLastDetected(this.getWidth() - 1);
+                    System.out.println("checker end line detected");
+                    destroyer.setToDelete(this);
 
-                System.out.println("checker end line applied");
+                    System.out.println("checker end line applied");
+                }
             }
-            toDelete.removeAll(toDelete);//a vérifier
-            //System.out.println("thread inside");
         }
-        System.out.println("thread :"+getRowID() + " annulé: status: " +isRunning());
+        System.out.println("thread :"+getRowID() + " annulé: status: " +destroyer.isRunning());
     }
 }

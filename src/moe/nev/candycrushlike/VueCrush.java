@@ -19,6 +19,7 @@ public class VueCrush extends JPanel implements ActionListener {
     private candyButtons[] btn = new candyButtons[Taille*Taille];
     Random rnd;
     private Integer isRunning;
+    private Integer isDeleting;
     private Integer score;
     private Thread[] vChecker = new Thread[Taille*Taille];
     private Thread[] hChecker = new Thread[Taille*Taille];
@@ -40,12 +41,13 @@ public class VueCrush extends JPanel implements ActionListener {
             this.add(btn[j]); // ajout du bouton a ce JPanel
         }
         isRunning = 1;
+        isDeleting = 0;
         score = 0;
-        destroyer = new gravityPower(isRunning, rnd);
+        destroyer = new gravityPower(isRunning, rnd, isDeleting);
         destroyerT = new Thread(destroyer);
         for (int j=0;j<Taille;j++){
-            vChecker[j] = new Thread(new verticalChecker(isRunning, score, btn, Letter, Taille, Taille, j, destroyer));
-            hChecker[j] = new Thread(new horizontalChecker(isRunning, score, btn, Letter, Taille, Taille, j, destroyer));
+            vChecker[j] = new Thread(new verticalChecker(score, btn, Letter, Taille, Taille, j, destroyer));
+            hChecker[j] = new Thread(new horizontalChecker(score, btn, Letter, Taille, Taille, j, destroyer));
             //vChecker[j].start();
             hChecker[j].start();
         }

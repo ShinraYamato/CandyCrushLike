@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * Created by Shinra on 28.11.16.
  */
 public abstract class checker implements Runnable {
-    private int isRunning;
     protected Integer score;
     protected candyButtons[] btn;
     protected String[] Letter;
@@ -18,8 +17,7 @@ public abstract class checker implements Runnable {
     private int firstDetected;
     private int lastDetected;
 
-    public checker(int isRunningP, Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, gravityPower destroyerP){
-        this.isRunning = isRunningP;
+    public checker(Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, gravityPower destroyerP){
         this.score = scoreP;
         this.btn = btnP;
         this.Letter = LetterP;
@@ -32,20 +30,12 @@ public abstract class checker implements Runnable {
         resetDetection();
     }
 
-    public void isRunning(int isRunning) {
-        this.isRunning = isRunning;
-    }
-
     public Integer getWidth() {
         return width;
     }
 
     public Integer getHeight() {
         return height;
-    }
-
-    public boolean isRunning() {
-        return (isRunning > 0);
     }
 
     public int getRowID() {

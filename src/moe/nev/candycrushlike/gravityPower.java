@@ -13,16 +13,42 @@ public class gravityPower implements Runnable{
     private checker toDelete;
     private Semaphore antiCollider;
     private Random rnd;
+    private Integer isDeleting;
 
-    public gravityPower(Integer isRunningP, Random rndP){
+    public gravityPower(Integer isRunningP, Random rndP, Integer isDeletingP){
         System.out.println("destroyer init");
         this.isRunning = isRunningP;
         this.antiCollider = new Semaphore(1);
         this.toDelete = null;
         this.rnd = rndP;
+        this.isDeleting = isDeletingP;
     }
 
-    public void setToDelete(checker toDelete) {
+    public boolean getIsDeleting() {
+        return (isDeleting > 1);
+    }
+
+    public void setIsDeleting(Boolean isDeleting) {
+        if (isDeleting){
+            this.isDeleting = 1;
+        } else {
+            this.isDeleting = 0;
+        }
+    }
+
+    public void isRunning(int isRunning) {
+        this.isRunning = isRunning;
+    }
+
+    public boolean isRunning() {
+        return (isRunning > 0);
+    }
+
+    public checker getToDelete() {
+        return toDelete;
+    }
+
+    public synchronized void setToDelete(checker toDelete) {
         try {
             System.out.println("destroyer received data");
             this.antiCollider.acquire();
@@ -33,16 +59,37 @@ public class gravityPower implements Runnable{
         this.toDelete = toDelete;
     }
 
-    public checker getToDelete() {
-        return toDelete;
+    public synchronized boolean canScan(checker toTest){
+        if (toDelete instanceof verticalChecker){
+            if (toDelete instanceof verticalChecker){
+                return (toDelete == toTest);
+            }
+            if (toDelete instanceof horizontalChecker){
+            }
+        }
+        if (toDelete instanceof horizontalChecker){
+            if (toDelete instanceof verticalChecker){
+
+            }
+            if (toDelete instanceof horizontalChecker){
+                return (toDelete == toTest);
+            }
+        }
+        return false;
     }
 
-    public void run(){
+    public synchronized void run(){
         System.out.println("destroyer is running");
         while (isRunning==1){
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if (toDelete!=null){
                 if (toDelete instanceof verticalChecker){
                     System.out.println("destroyer sup v");
+                    suppressionV();
                 }
                 if (toDelete instanceof horizontalChecker){
                     System.out.println("destroyer sup h");
@@ -57,7 +104,7 @@ public class gravityPower implements Runnable{
         System.out.println("destroyer is running");
     }
 
-    private void suppressionH(){
+    private synchronized void suppressionH(){
         for (int i=toDelete.getFirstDetected();i<=toDelete.getLastDetected();i++){
             for (int j=toDelete.getRowID();j>0;j--){
                 toDelete.btn[idFromXY(i,j)].setIcon(toDelete.btn[idFromXY(i,j-1)].getIcon());
@@ -69,6 +116,18 @@ public class gravityPower implements Runnable{
                     getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
         }
     }
+
+    private synchronized void suppressionV(){
+            for (int j=toDelete.getFirstDetected();j>0;j--){
+                toDelete.btn[idFromXY(toDelete.getRowID(),j)].setIcon(toDelete.btn[idFromXY(toDelete.getRowID(),j-1)].getIcon());
+                toDelete.btn[idFromXY(toDelete.getRowID(),j)].setButtonType(toDelete.btn[idFromXY(toDelete.getRowID(),j-1)].getButtonType());
+            }
+            toDelete.btn[idFromXY(toDelete.getRowID(),0)].setButtonType(toDelete.Letter[rnd.nextInt(toDelete.Letter.length)]);
+            toDelete.btn[idFromXY(toDelete.getRowID(),0)].setIcon(new ImageIcon(new
+                    ImageIcon("images/"+toDelete.btn[idFromXY(toDelete.getRowID(),0)].getButtonType()).getImage().
+                    getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+    }
+
 
     private int idFromXY(int x, int y){
         return y * this.toDelete.getWidth() + x;
