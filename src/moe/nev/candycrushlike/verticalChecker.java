@@ -11,7 +11,7 @@ public class verticalChecker extends checker{
         super(scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP);
     }
 
-    public void run(){
+    public synchronized void run(){
         System.out.println("thread :"+getRowID() + " lancé: status: " +destroyer.isRunning());
         while (destroyer.isRunning()){
             try {
@@ -23,7 +23,7 @@ public class verticalChecker extends checker{
                 toDelete.removeAll(toDelete);
                 setFirstDetected(-1);
                 setLastDetected(-1);
-
+                while (destroyer.getIsDeleting()){}
                 for (int i = 0; i < this.getHeight(); i++) {
                     if (toDelete.isEmpty()) {
                         toDelete.add(btn[i * this.getWidth() + this.getRowID()]);

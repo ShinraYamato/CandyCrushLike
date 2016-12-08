@@ -11,7 +11,8 @@ public class horizontalChecker extends checker{
         super(scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP);
     }
 
-    public void run(){
+    public synchronized void run(){
+
         System.out.println("thread :"+getRowID() + " lancé: status: " +destroyer.isRunning());
         while (destroyer.isRunning()){
             try {

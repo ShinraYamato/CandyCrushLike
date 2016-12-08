@@ -59,12 +59,12 @@ public class gravityPower implements Runnable{
             e.printStackTrace();
         }
         System.out.println("destroyer record data");
-        if (canScan(toDelete)){
-            this.toDelete = toDelete;
-        } else {
-            antiCollider.release();
-            return;
-        }
+        //if (canScan(toDelete)){
+        this.toDelete = toDelete;
+        //} else {
+        //    antiCollider.release();
+        //    return;
+        //}
         try {
             release.acquire();
         } catch (InterruptedException e) {
@@ -85,7 +85,7 @@ public class gravityPower implements Runnable{
         return true;
     }
 
-    public synchronized void run(){
+    public void run(){
         System.out.println("destroyer is running");
         while (isRunning==1){
             try {
