@@ -10,8 +10,8 @@ import java.util.concurrent.Semaphore;
  */
 public class gravityPower implements Runnable{
     private Integer isRunning;
-    private checker toDelete;
-    private Semaphore antiCollider;
+    private checker toDelete, toDeleteOld;
+    private Semaphore antiCollider, release, release2;
     private Random rnd;
     private Integer isDeleting;
 
@@ -19,7 +19,10 @@ public class gravityPower implements Runnable{
         System.out.println("destroyer init");
         this.isRunning = isRunningP;
         this.antiCollider = new Semaphore(1);
+        this.release = new Semaphore(0);
+        this.release2 = new Semaphore(0);
         this.toDelete = null;
+        this.toDeleteOld = toDelete;
         this.rnd = rndP;
         this.isDeleting = isDeletingP;
     }
@@ -48,7 +51,7 @@ public class gravityPower implements Runnable{
         return toDelete;
     }
 
-    public synchronized void setToDelete(checker toDelete) {
+    public void setToDelete(checker toDelete) {
         try {
             System.out.println("destroyer received data");
             this.antiCollider.acquire();
@@ -56,26 +59,30 @@ public class gravityPower implements Runnable{
             e.printStackTrace();
         }
         System.out.println("destroyer record data");
-        this.toDelete = toDelete;
+        if (canScan(toDelete)){
+            this.toDelete = toDelete;
+        } else {
+            antiCollider.release();
+            return;
+        }
+        try {
+            release.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    public synchronized boolean canScan(checker toTest){
-        if (toDelete instanceof verticalChecker){
-            if (toDelete instanceof verticalChecker){
-                return (toDelete == toTest);
-            }
-            if (toDelete instanceof horizontalChecker){
-            }
-        }
-        if (toDelete instanceof horizontalChecker){
-            if (toDelete instanceof verticalChecker){
-
-            }
-            if (toDelete instanceof horizontalChecker){
-                return (toDelete == toTest);
+    public boolean canScan(checker toDelete){
+        if (toDeleteOld == null){
+            return true;
+        } else {
+            if ((toDeleteOld instanceof verticalChecker && toDelete instanceof horizontalChecker)||(toDeleteOld instanceof horizontalChecker && toDelete instanceof verticalChecker)){
+                if (toDelete.getRowID()>toDeleteOld.getFirstDetected()&&toDelete.getRowID()<toDeleteOld.getFirstDetected()){
+                    return false;
+                }
             }
         }
-        return false;
+        return true;
     }
 
     public synchronized void run(){
@@ -95,9 +102,12 @@ public class gravityPower implements Runnable{
                     System.out.println("destroyer sup h");
                     suppressionH();
                 }
-                toDelete = null;
-                antiCollider.release();
+
                 System.out.println("destroyer released data");
+                toDeleteOld = toDelete;
+                toDelete = null;
+                release.release();
+                antiCollider.release();
             }
             //System.out.println("destroyer inside");
         }
@@ -118,14 +128,16 @@ public class gravityPower implements Runnable{
     }
 
     private synchronized void suppressionV(){
-            for (int j=toDelete.getFirstDetected();j>0;j--){
-                toDelete.btn[idFromXY(toDelete.getRowID(),j)].setIcon(toDelete.btn[idFromXY(toDelete.getRowID(),j-1)].getIcon());
-                toDelete.btn[idFromXY(toDelete.getRowID(),j)].setButtonType(toDelete.btn[idFromXY(toDelete.getRowID(),j-1)].getButtonType());
+            for (int j=toDelete.getLastDetected();j>(toDelete.getLastDetected()-toDelete.getFirstDetected());j--){
+                toDelete.btn[idFromXY(toDelete.getRowID(),j)].setIcon(toDelete.btn[idFromXY(toDelete.getRowID(),j-(toDelete.getLastDetected()-toDelete.getFirstDetected()+1))].getIcon());
+                toDelete.btn[idFromXY(toDelete.getRowID(),j)].setButtonType(toDelete.btn[idFromXY(toDelete.getRowID(),j-(toDelete.getLastDetected()-toDelete.getFirstDetected()+1))].getButtonType());
             }
-            toDelete.btn[idFromXY(toDelete.getRowID(),0)].setButtonType(toDelete.Letter[rnd.nextInt(toDelete.Letter.length)]);
-            toDelete.btn[idFromXY(toDelete.getRowID(),0)].setIcon(new ImageIcon(new
-                    ImageIcon("images/"+toDelete.btn[idFromXY(toDelete.getRowID(),0)].getButtonType()).getImage().
-                    getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+            for (int j=(toDelete.getLastDetected()-toDelete.getFirstDetected());j>=0;j--) {
+                toDelete.btn[idFromXY(toDelete.getRowID(), j)].setButtonType(toDelete.Letter[rnd.nextInt(toDelete.Letter.length)]);
+                toDelete.btn[idFromXY(toDelete.getRowID(), j)].setIcon(new ImageIcon(new
+                        ImageIcon("images/" + toDelete.btn[idFromXY(toDelete.getRowID(), j)].getButtonType()).getImage().
+                        getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+            }
     }
 
 

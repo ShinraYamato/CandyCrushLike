@@ -48,7 +48,7 @@ public class VueCrush extends JPanel implements ActionListener {
         for (int j=0;j<Taille;j++){
             vChecker[j] = new Thread(new verticalChecker(score, btn, Letter, Taille, Taille, j, destroyer));
             hChecker[j] = new Thread(new horizontalChecker(score, btn, Letter, Taille, Taille, j, destroyer));
-            //vChecker[j].start();
+            vChecker[j].start();
             hChecker[j].start();
         }
         //hChecker[1] = new Thread(new horizontalChecker(isRunning, score, btn, Letter, Taille, Taille, 1, destroyer));

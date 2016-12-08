@@ -19,8 +19,11 @@ public class horizontalChecker extends checker{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (destroyer.canScan(this)) {
+            if (true) {
                 toDelete.removeAll(toDelete);
+                setFirstDetected(-1);
+                setLastDetected(-1);
+
                 for (int i = 0; i < this.getWidth(); i++) {
                     if (toDelete.isEmpty()) {
                         toDelete.add(btn[this.getRowID() * this.getWidth() + i]);
