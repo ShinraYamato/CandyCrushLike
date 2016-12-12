@@ -7,13 +7,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import static java.lang.Math.abs;
 
 public class VueCrush extends JPanel implements ActionListener {
-    private Timer t;
+    private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
     private static final String[] Letter = { "bird.png" , "cricket.png"
             ,"elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
             "gnome_panel_fish.png","pig.png", "kbugbuster.png"};
@@ -21,14 +21,12 @@ public class VueCrush extends JPanel implements ActionListener {
     private static Integer Taille = 10;
     private candyButtons[] btn = new candyButtons[Taille*Taille];
     Random rnd;
-    private Integer isRunning;
-    private Integer isDeleting;
-    private Integer score;
     private Thread[] vChecker = new Thread[Taille*Taille];
     private Thread[] hChecker = new Thread[Taille*Taille];
     private Thread destroyerT = new Thread();
     private gravityPower destroyer;
     public Integer lock = 0;
+    private int timeToPlay = 5;//temps en secondes de jeu
 
     public VueCrush(Random rnd) {
     // utilisation d'un GridLayout comme "layout"
@@ -44,23 +42,27 @@ public class VueCrush extends JPanel implements ActionListener {
              // enregistrement de l'ecouteur
             this.add(btn[j]); // ajout du bouton a ce JPanel
         }
-        isRunning = 1;
-        score = 0;
-        destroyer = new gravityPower(isRunning, rnd);
+        destroyer = new gravityPower(rnd);
         destroyerT = new Thread(destroyer);
         for (int j=0;j<Taille;j++){
-            vChecker[j] = new Thread(new verticalChecker(score, btn, Letter, Taille, Taille, j, destroyer, lock));
-            hChecker[j] = new Thread(new horizontalChecker(score, btn, Letter, Taille, Taille, j, destroyer, lock));
+            vChecker[j] = new Thread(new verticalChecker(btn, Letter, Taille, Taille, j, destroyer, lock));
+            hChecker[j] = new Thread(new horizontalChecker(btn, Letter, Taille, Taille, j, destroyer, lock));
             vChecker[j].start();
             hChecker[j].start();
         }
         destroyerT.start();
-        t = new Timer();
-        t.schedule(stop(), 10);
+        stop();
     }
 
     public void stop(){
-        isRunning = 0;
+        Runnable task = new Runnable() {
+            public void run() {
+                destroyer.stop();
+                JOptionPane.showMessageDialog(null,"Score : "+destroyer.getScore(),"Fin de partie après "+timeToPlay+" secondes",JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            }
+        };
+        worker.schedule(task, timeToPlay, TimeUnit.SECONDS);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -72,7 +74,6 @@ public class VueCrush extends JPanel implements ActionListener {
         } else {
             lastClickedID = -1;
         }
-        isRunning = 0;
     }
 
     /**

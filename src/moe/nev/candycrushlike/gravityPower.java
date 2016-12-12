@@ -9,26 +9,37 @@ import java.util.concurrent.Semaphore;
  * Created by Shinra on 28.11.16.
  */
 public class gravityPower implements Runnable {
-    private Integer isRunning;
+    private boolean isRunning;
     private checker toDelete;
     private Semaphore antiCollider;
     private Random rnd;
+    private int score;
 
-    public gravityPower(Integer isRunningP, Random rndP) {
-        System.out.println("destroyer init");
-        this.isRunning = isRunningP;
+    public gravityPower(Random rndP) {
+        this.isRunning = true;
         this.antiCollider = new Semaphore(0);
         this.toDelete = null;
         this.rnd = rndP;
+        score = 0;
+    }
+
+    public void addScore(int toAdd){
+        this.score+=toAdd;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public boolean isRunning() {
-        return (isRunning > 0);
+        return isRunning;
+    }
+
+    public void stop(){
+        this.isRunning = false;
     }
 
     public void setToDelete(checker toDelete) {
-
-        System.out.println("destroyer record data");
         this.toDelete = toDelete;
         try {
             //attend la fin de la suppression des données
@@ -40,8 +51,7 @@ public class gravityPower implements Runnable {
 
 
     public void run() {
-        System.out.println("destroyer is running");
-        while (isRunning == 1) {
+        while (isRunning()) {
             try {
                 Thread.sleep(5);
             } catch (InterruptedException e) {
@@ -49,20 +59,15 @@ public class gravityPower implements Runnable {
             }
             if (toDelete != null) {
                 if (toDelete instanceof verticalChecker) {
-                    System.out.println("destroyer sup v");
                     suppressionV();
                 }
                 if (toDelete instanceof horizontalChecker) {
-                    System.out.println("destroyer sup h");
                     suppressionH();
                 }
-
-                System.out.println("destroyer released data");
                 toDelete = null;
                 antiCollider.release();
             }
         }
-        System.out.println("destroyer is running");
     }
 
     private void suppressionH() {

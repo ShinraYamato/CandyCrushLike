@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * Created by Shinra on 28.11.16.
  */
 public abstract class checker implements Runnable {
-    protected Integer score;
     protected candyButtons[] btn;
     protected String[] Letter;
     private int width, height;
@@ -18,8 +17,7 @@ public abstract class checker implements Runnable {
     private int lastDetected;
     public Integer lock;
 
-    public checker(Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, gravityPower destroyerP, Integer lockP) {
-        this.score = scoreP;
+    public checker(candyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, gravityPower destroyerP, Integer lockP) {
         this.btn = btnP;
         this.Letter = LetterP;
         this.width = widthP;
@@ -69,37 +67,35 @@ public abstract class checker implements Runnable {
 
     public abstract int dimLen();
 
-    public void tryDelete(int id){
+    public void tryDelete(int id) {
         if (toDelete.size() >= 3) {
             setLastDetected(id - 1);
-            System.out.println("checker detected");
             addScore();
             destroyer.setToDelete(this);
-            System.out.println("checker applied");
         }
     }
 
-    public void addScore(){
-        int diff = getFirstDetected()-lastDetected+1;
-        switch (diff){
+    public void addScore() {
+        int diff = lastDetected - firstDetected + 1;
+        System.out.println(lastDetected + "-" + firstDetected);
+        switch (diff) {
             case 3:
-                score+=50;
+                destroyer.addScore(50);
                 break;
             case 4:
-                score+=150;
+                destroyer.addScore(150);
                 break;
             case 5:
-                score+=400;
+                destroyer.addScore(400);
                 break;
         }
     }
 
-    public boolean sameType(int id){
+    public boolean sameType(int id) {
         return toDelete.get(toDelete.size() - 1).getButtonType().equals(btn[idGen(id)].getButtonType());
     }
 
     public void run() {
-        System.out.println("thread :" + getRowID() + " lancé: status: " + destroyer.isRunning());
         while (destroyer.isRunning()) {
             synchronized (lock) {
                 toDelete.removeAll(toDelete);
@@ -126,6 +122,5 @@ public abstract class checker implements Runnable {
                 tryDelete(this.dimLen() - 1);
             }
         }
-        System.out.println("thread :" + getRowID() + " annulé: status: " + destroyer.isRunning());
     }
 }

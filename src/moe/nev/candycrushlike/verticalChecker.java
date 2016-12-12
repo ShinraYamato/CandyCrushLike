@@ -5,8 +5,8 @@ package moe.nev.candycrushlike;
  */
 public class verticalChecker extends checker {
 
-    public verticalChecker(Integer scoreP, candyButtons[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, gravityPower destroyerP, Integer lockP) {
-        super(scoreP, btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP, lockP);
+    public verticalChecker(candyButtons[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, gravityPower destroyerP, Integer lockP) {
+        super(btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP, lockP);
     }
 
     public int idGen(int id){
