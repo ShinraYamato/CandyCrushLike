@@ -3,6 +3,8 @@ package moe.nev.candycrushlike;
 import javax.swing.*;
 import java.awt.*;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by Shinra on 03.12.16.
  */

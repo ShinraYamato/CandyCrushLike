@@ -7,10 +7,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static java.lang.Math.abs;
 
 public class VueCrush extends JPanel implements ActionListener {
+    private Timer t;
     private static final String[] Letter = { "bird.png" , "cricket.png"
             ,"elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
             "gnome_panel_fish.png","pig.png", "kbugbuster.png"};
@@ -25,6 +28,7 @@ public class VueCrush extends JPanel implements ActionListener {
     private Thread[] hChecker = new Thread[Taille*Taille];
     private Thread destroyerT = new Thread();
     private gravityPower destroyer;
+    public Integer lock = 0;
 
     public VueCrush(Random rnd) {
     // utilisation d'un GridLayout comme "layout"
@@ -41,24 +45,28 @@ public class VueCrush extends JPanel implements ActionListener {
             this.add(btn[j]); // ajout du bouton a ce JPanel
         }
         isRunning = 1;
-        isDeleting = 0;
         score = 0;
-        destroyer = new gravityPower(isRunning, rnd, isDeleting);
+        destroyer = new gravityPower(isRunning, rnd);
         destroyerT = new Thread(destroyer);
         for (int j=0;j<Taille;j++){
-            vChecker[j] = new Thread(new verticalChecker(score, btn, Letter, Taille, Taille, j, destroyer));
-            hChecker[j] = new Thread(new horizontalChecker(score, btn, Letter, Taille, Taille, j, destroyer));
+            vChecker[j] = new Thread(new verticalChecker(score, btn, Letter, Taille, Taille, j, destroyer, lock));
+            hChecker[j] = new Thread(new horizontalChecker(score, btn, Letter, Taille, Taille, j, destroyer, lock));
             vChecker[j].start();
             hChecker[j].start();
         }
-        //hChecker[1] = new Thread(new horizontalChecker(isRunning, score, btn, Letter, Taille, Taille, 1, destroyer));
-        //hChecker[1].start();
         destroyerT.start();
+        t = new Timer();
+        t.schedule(stop(), 10);
     }
+
+    public void stop(){
+        isRunning = 0;
+    }
+
     public void actionPerformed(ActionEvent e) {
         if (lastClickedID < 0){
             lastClickedID = ((candyButtons) e.getSource()).getButtonID();
-        } else if (neighbourByName(btn[lastClickedID], (candyButtons)e.getSource())){
+        } else if (neighbourByID(btn[lastClickedID], (candyButtons)e.getSource())){
             ((candyButtons) e.getSource()).exchangeButtonsData(btn[lastClickedID]);
             lastClickedID = -1;
         } else {
@@ -73,7 +81,12 @@ public class VueCrush extends JPanel implements ActionListener {
      * @param b
      * @return oui ou non
      */
-    public boolean neighbourByName(candyButtons a, candyButtons b){
-        return ((abs(a.getButtonID()-b.getButtonID())==(1))||abs(a.getButtonID()-b.getButtonID())==(Taille));
+    public boolean neighbourByID(candyButtons a, candyButtons b){
+        int ax, bx, ay, by;
+        ax = a.getButtonID() / Taille;
+        bx = b.getButtonID() / Taille;
+        ay = a.getButtonID() % Taille;
+        by = b.getButtonID() % Taille;
+        return ((abs(ax-bx) == 1 && (abs(ay-by)) == 0)||(abs(ax-bx) == 0 && (abs(ay-by)) == 1));
     }
 }
