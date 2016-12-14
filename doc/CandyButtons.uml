@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>moe.nev.candycrushlike.CandyButtons</OriginalElement>
+  <nodes>
+    <node x="199.5" y="601.0">moe.nev.candycrushlike.GravityPower</node>
+    <node x="142.5" y="146.0">moe.nev.candycrushlike.Checker</node>
+    <node x="-81.49999999999994" y="1090.0">moe.nev.candycrushlike.Main</node>
+    <node x="222.5" y="0.0">moe.nev.candycrushlike.CandyButtons</node>
+    <node x="36.5" y="712.0">moe.nev.candycrushlike.VerticalChecker</node>
+    <node x="582.5" y="712.0">moe.nev.candycrushlike.HorizontalChecker</node>
+    <node x="126.50000000000006" y="946.0">moe.nev.candycrushlike.VueCrush</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="moe.nev.candycrushlike.VerticalChecker" target="moe.nev.candycrushlike.Checker">
+      <point x="0.0" y="-36.5" />
+      <point x="108.0" y="576.0" />
+      <point x="202.125" y="576.0" />
+      <point x="-178.875" y="202.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.Checker" target="moe.nev.candycrushlike.GravityPower">
+      <point x="59.625" y="202.5" />
+      <point x="440.625" y="576.0" />
+      <point x="471.75" y="576.0" />
+      <point x="90.75" y="-147.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="moe.nev.candycrushlike.VerticalChecker">
+      <point x="-127.25" y="-180.0" />
+      <point x="253.75000000000006" y="916.0" />
+      <point x="108.0" y="916.0" />
+      <point x="0.0" y="36.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.HorizontalChecker" target="moe.nev.candycrushlike.Checker">
+      <point x="0.0" y="-36.5" />
+      <point x="654.0" y="576.0" />
+      <point x="559.875" y="576.0" />
+      <point x="178.875" y="202.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.Main" target="moe.nev.candycrushlike.VueCrush">
+      <point x="0.0" y="-25.5" />
+      <point x="0.0" y="180.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="moe.nev.candycrushlike.HorizontalChecker">
+      <point x="127.25" y="-180.0" />
+      <point x="508.25000000000006" y="916.0" />
+      <point x="654.0" y="916.0" />
+      <point x="0.0" y="36.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.GravityPower" target="moe.nev.candycrushlike.Checker">
+      <point x="-90.75" y="-147.5" />
+      <point x="290.25" y="576.0" />
+      <point x="321.375" y="576.0" />
+      <point x="-59.625" y="202.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.Checker" target="moe.nev.candycrushlike.CandyButtons">
+      <point x="0.0" y="-202.5" />
+      <point x="0.0" y="48.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="moe.nev.candycrushlike.GravityPower">
+      <point x="42.41666666666663" y="-180.0" />
+      <point x="423.4166666666667" y="926.0" />
+      <point x="471.75" y="926.0" />
+      <point x="90.75" y="147.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="moe.nev.candycrushlike.CandyButtons">
+      <point x="212.08333333333331" y="-180.0" />
+      <point x="593.0833333333334" y="926.0" />
+      <point x="736.0" y="926.0" />
+      <point x="736.0" y="121.0" />
+      <point x="486.6666666666667" y="121.0" />
+      <point x="105.66666666666669" y="48.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="-85.0" y="1072.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

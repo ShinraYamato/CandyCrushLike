@@ -1,23 +1,22 @@
 package moe.nev.candycrushlike;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 /**
  * Created by Shinra on 28.11.16.
  */
-public abstract class checker implements Runnable {
-    protected candyButtons[] btn;
+public abstract class Checker implements Runnable {
+    protected CandyButtons[] btn;
     protected String[] Letter;
     private int width, height;
     private int rowID;
-    protected ArrayList<candyButtons> toDelete;
-    protected gravityPower destroyer;
+    protected ArrayList<CandyButtons> toDelete;
+    protected GravityPower destroyer;
     private int firstDetected;
     private int lastDetected;
     public Integer lock;
 
-    public checker(candyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, gravityPower destroyerP, Integer lockP) {
+    public Checker(CandyButtons[] btnP, String[] LetterP, Integer widthP, Integer heightP, int rowIDP, GravityPower destroyerP, Integer lockP) {
         this.btn = btnP;
         this.Letter = LetterP;
         this.width = widthP;

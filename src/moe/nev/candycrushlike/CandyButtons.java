@@ -1,18 +1,17 @@
 package moe.nev.candycrushlike;
 
 import javax.swing.*;
-import java.awt.*;
 
 import static java.lang.Math.abs;
 
 /**
  * Created by Shinra on 03.12.16.
  */
-public class candyButtons extends JButton {
+public class CandyButtons extends JButton {
     private String buttonType;
     private int buttonID;
 
-    public candyButtons(Icon icon, int buttonIDP, String buttonTypeP) {
+    public CandyButtons(Icon icon, int buttonIDP, String buttonTypeP) {
         super(null, icon);
         this.buttonType = buttonTypeP;
         this.buttonID = buttonIDP;
@@ -34,7 +33,7 @@ public class candyButtons extends JButton {
         this.buttonType = buttonType;
     }
 
-    public void exchangeButtonsData(candyButtons b1){
+    public void exchangeButtonsData(CandyButtons b1){
         String TMP = this.getButtonType();
         Icon TMPIcon = this.getIcon();
         this.setButtonType(b1.getButtonType());

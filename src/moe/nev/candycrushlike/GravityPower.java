@@ -8,14 +8,14 @@ import java.util.concurrent.Semaphore;
 /**
  * Created by Shinra on 28.11.16.
  */
-public class gravityPower implements Runnable {
+public class GravityPower implements Runnable {
     private boolean isRunning;
-    private checker toDelete;
+    private Checker toDelete;
     private Semaphore antiCollider;
     private Random rnd;
     private int score;
 
-    public gravityPower(Random rndP) {
+    public GravityPower(Random rndP) {
         this.isRunning = true;
         this.antiCollider = new Semaphore(0);
         this.toDelete = null;
@@ -23,23 +23,42 @@ public class gravityPower implements Runnable {
         score = 0;
     }
 
+    /**
+     * add score points
+     * @param toAdd
+     */
     public void addScore(int toAdd){
         this.score+=toAdd;
     }
 
+    /**
+     * retourne actual points
+     * @return points
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * test is programm should continue to run
+     * @return true or false
+     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * switch the running indicator to false
+     */
     public void stop(){
         this.isRunning = false;
     }
 
-    public void setToDelete(checker toDelete) {
+    /**
+     * try to add a new checker who has 3 or more identical buttons
+     * @param toDelete the checker
+     */
+    public void setToDelete(Checker toDelete) {
         this.toDelete = toDelete;
         try {
             //attend la fin de la suppression des données
@@ -49,7 +68,9 @@ public class gravityPower implements Runnable {
         }
     }
 
-
+    /**
+     * Destroy and apply gravity to buttons
+     */
     public void run() {
         while (isRunning()) {
             try {
@@ -58,10 +79,10 @@ public class gravityPower implements Runnable {
                 e.printStackTrace();
             }
             if (toDelete != null) {
-                if (toDelete instanceof verticalChecker) {
+                if (toDelete instanceof VerticalChecker) {
                     suppressionV();
                 }
-                if (toDelete instanceof horizontalChecker) {
+                if (toDelete instanceof HorizontalChecker) {
                     suppressionH();
                 }
                 toDelete = null;
@@ -70,6 +91,9 @@ public class gravityPower implements Runnable {
         }
     }
 
+    /**
+     * supression + gravity routine dor horizontal checkers
+     */
     private void suppressionH() {
         for (int i = toDelete.getFirstDetected(); i <= toDelete.getLastDetected(); i++) {
             for (int j = toDelete.getRowID(); j > 0; j--) {
@@ -82,6 +106,9 @@ public class gravityPower implements Runnable {
         }
     }
 
+    /**
+     * supression + gravity routine dor vertical checkers
+     */
     private void suppressionV() {
         for (int j = toDelete.getLastDetected(); j > (toDelete.getLastDetected() - toDelete.getFirstDetected()); j--) {
             toDelete.btn[idFromXY(toDelete.getRowID(), j)].exchangeButtonsData(toDelete.btn[idFromXY(toDelete.getRowID(), j - (toDelete.getLastDetected() - toDelete.getFirstDetected() + 1))]);

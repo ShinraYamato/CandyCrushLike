@@ -3,9 +3,9 @@ package moe.nev.candycrushlike;
 /**
  * Created by Shinra on 28.11.16.
  */
-public class verticalChecker extends checker {
+public class VerticalChecker extends Checker {
 
-    public verticalChecker(candyButtons[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, gravityPower destroyerP, Integer lockP) {
+    public VerticalChecker(CandyButtons[] btnP, String[] LetterP, Integer TailleHP, Integer TailleVP, int rowIDP, GravityPower destroyerP, Integer lockP) {
         super(btnP, LetterP, TailleHP, TailleVP, rowIDP, destroyerP, lockP);
     }
 
