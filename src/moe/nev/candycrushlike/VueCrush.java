@@ -14,9 +14,11 @@ import static java.lang.Math.abs;
 
 public class VueCrush extends JPanel implements ActionListener {
     private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
-    private static final String[] Letter = { "bird.png" , "cricket.png"
+    private static final String[] Letter = {"m1.png","m2.png","m3.png","m4.png","m5.png","m6.png","m7.png","m8.png","m9.png","m10.png","m11.png","m12.png","m13.png","m14.png"};
+            /*{ "bird.png" , "cricket.png"
             ,"elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
-            "gnome_panel_fish.png","pig.png", "kbugbuster.png", "dragon_fly.png"};
+            "gnome_panel_fish.png","pig.png", "kbugbuster.png", "dragon_fly.png"};*/
+
     private int lastClickedID = -1;
     private static Integer Taille = 10;
     private candyButtons[] btn = new candyButtons[Taille*Taille];
@@ -26,7 +28,7 @@ public class VueCrush extends JPanel implements ActionListener {
     private Thread destroyerT = new Thread();
     private gravityPower destroyer;
     public Integer lock = 0;
-    private int timeToPlay = 5;//temps en secondes de jeu
+    private int timeToPlay = 3;//temps en minutes de jeu
 
     public VueCrush(Random rnd) {
     // utilisation d'un GridLayout comme "layout"
