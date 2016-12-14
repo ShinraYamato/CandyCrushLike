@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>moe.nev.candycrushlike.CandyButtons</OriginalElement>
+  <nodes>
+    <node x="407.02083333333337" y="0.0">javax.swing.JButton</node>
+    <node x="86.0" y="237.0">moe.nev.candycrushlike.GravityPower</node>
+    <node x="218.125" y="158.0">moe.nev.candycrushlike.Checker</node>
+    <node x="97.52941176470586" y="79.0">java.lang.Runnable</node>
+    <node x="389.52083333333337" y="79.0">moe.nev.candycrushlike.CandyButtons</node>
+    <node x="193.02941176470588" y="415.0">moe.nev.candycrushlike.Main</node>
+    <node x="208.0" y="237.0">moe.nev.candycrushlike.VerticalChecker</node>
+    <node x="342.0" y="237.0">moe.nev.candycrushlike.HorizontalChecker</node>
+    <node x="0.0" y="79.0">javax.swing.JPanel</node>
+    <node x="181.02941176470588" y="336.0">moe.nev.candycrushlike.VueCrush</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="moe.nev.candycrushlike.VerticalChecker" target="moe.nev.candycrushlike.Checker">
+      <point x="0.0" y="-14.5" />
+      <point x="9.375" y="14.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.Checker" target="moe.nev.candycrushlike.GravityPower">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="javax.swing.JPanel">
+      <point x="-36.3125" y="-14.5" />
+      <point x="186.21691176470588" y="316.0" />
+      <point x="32.5" y="316.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="moe.nev.candycrushlike.VerticalChecker">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.CandyButtons" target="javax.swing.JButton">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.HorizontalChecker" target="moe.nev.candycrushlike.Checker">
+      <point x="0.0" y="-14.5" />
+      <point x="407.0" y="217.0" />
+      <point x="283.75" y="217.0" />
+      <point x="28.125" y="14.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.Main" target="moe.nev.candycrushlike.VueCrush">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.GravityPower" target="java.lang.Runnable">
+      <point x="-34.0" y="-14.5" />
+      <point x="103.0" y="217.0" />
+      <point x="130.36274509803917" y="217.0" />
+      <point x="130.36274509803917" y="138.0" />
+      <point x="138.52941176470586" y="138.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.Checker" target="java.lang.Runnable">
+      <point x="-18.75" y="-14.5" />
+      <point x="236.875" y="138.0" />
+      <point x="165.8627450980392" y="138.0" />
+      <point x="27.333333333333343" y="14.5" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="moe.nev.candycrushlike.HorizontalChecker">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.GravityPower" target="moe.nev.candycrushlike.Checker">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="java.lang.Runnable">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.Checker" target="moe.nev.candycrushlike.CandyButtons">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="moe.nev.candycrushlike.GravityPower">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="moe.nev.candycrushlike.VueCrush" target="moe.nev.candycrushlike.CandyButtons">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="248.5" y="222.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
