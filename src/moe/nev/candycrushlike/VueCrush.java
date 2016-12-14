@@ -16,7 +16,7 @@ public class VueCrush extends JPanel implements ActionListener {
     private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
     private static final String[] Letter = { "bird.png" , "cricket.png"
             ,"elephant.png", "penguin.png", "dolphin.png", "cat.png", "jelly_fish.png",
-            "gnome_panel_fish.png","pig.png", "kbugbuster.png"};
+            "gnome_panel_fish.png","pig.png", "kbugbuster.png", "dragon_fly.png"};
     private int lastClickedID = -1;
     private static Integer Taille = 10;
     private candyButtons[] btn = new candyButtons[Taille*Taille];
@@ -35,8 +35,9 @@ public class VueCrush extends JPanel implements ActionListener {
         this.rnd = rnd;
         for(int j=0;j<dim;j++) { // boucle d'ajout des boutons
             btn[j] = new candyButtons(null, j, Letter[rnd.nextInt(Letter.length)]);
+
             btn[j].setIcon(new ImageIcon(new
-                    ImageIcon("images/"+btn[j].getButtonType()).getImage().
+                    ImageIcon(getClass().getClassLoader().getResource(btn[j].getButtonType())).getImage().
                     getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
             btn[j].addActionListener(this);
              // enregistrement de l'ecouteur
@@ -58,11 +59,11 @@ public class VueCrush extends JPanel implements ActionListener {
         Runnable task = new Runnable() {
             public void run() {
                 destroyer.stop();
-                JOptionPane.showMessageDialog(null,"Score : "+destroyer.getScore(),"Fin de partie après "+timeToPlay+" secondes",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Score : "+destroyer.getScore(),"Fin de partie après "+timeToPlay+" minutes",JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
             }
         };
-        worker.schedule(task, timeToPlay, TimeUnit.SECONDS);
+        worker.schedule(task, timeToPlay, TimeUnit.MINUTES);
     }
 
     public void actionPerformed(ActionEvent e) {

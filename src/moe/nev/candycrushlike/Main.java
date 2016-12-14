@@ -7,7 +7,6 @@ package moe.nev.candycrushlike;
  */
 import java.util.*;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 public class Main {
     public static void main(String[] args) {
         final Random rnd = new Random(System.currentTimeMillis());

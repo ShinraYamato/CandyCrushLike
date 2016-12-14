@@ -77,7 +77,6 @@ public abstract class checker implements Runnable {
 
     public void addScore() {
         int diff = lastDetected - firstDetected + 1;
-        System.out.println(lastDetected + "-" + firstDetected);
         switch (diff) {
             case 3:
                 destroyer.addScore(50);
@@ -119,7 +118,7 @@ public abstract class checker implements Runnable {
                         }
                     }
                 }
-                tryDelete(this.dimLen() - 1);
+                tryDelete(this.dimLen());
             }
         }
     }

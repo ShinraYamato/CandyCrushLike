@@ -76,8 +76,8 @@ public class gravityPower implements Runnable {
                 toDelete.btn[idFromXY(i, j)].exchangeButtonsData(toDelete.btn[idFromXY(i, j - 1)]);
             }
             toDelete.btn[idFromXY(i, 0)].setButtonType(toDelete.Letter[rnd.nextInt(toDelete.Letter.length)]);
-            toDelete.btn[idFromXY(i, 0)].setIcon(new ImageIcon(new
-                    ImageIcon("images/" + toDelete.btn[idFromXY(i, 0)].getButtonType()).getImage().
+            toDelete.btn[idFromXY(i, 0)].setIcon(new ImageIcon
+                    (new ImageIcon(getClass().getClassLoader().getResource(toDelete.btn[idFromXY(i, 0)].getButtonType())).getImage().
                     getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
         }
     }
@@ -88,8 +88,9 @@ public class gravityPower implements Runnable {
         }
         for (int j = (toDelete.getLastDetected() - toDelete.getFirstDetected()); j >= 0; j--) {
             toDelete.btn[idFromXY(toDelete.getRowID(), j)].setButtonType(toDelete.Letter[rnd.nextInt(toDelete.Letter.length)]);
+
             toDelete.btn[idFromXY(toDelete.getRowID(), j)].setIcon(new ImageIcon(new
-                    ImageIcon("images/" + toDelete.btn[idFromXY(toDelete.getRowID(), j)].getButtonType()).getImage().
+                    ImageIcon(getClass().getClassLoader().getResource(toDelete.btn[idFromXY(toDelete.getRowID(), j)].getButtonType())).getImage().
                     getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
         }
     }

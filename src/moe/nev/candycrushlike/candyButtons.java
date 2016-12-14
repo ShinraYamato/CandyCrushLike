@@ -39,8 +39,11 @@ public class candyButtons extends JButton {
         this.setButtonType(b1.getButtonType());
         this.setIcon(b1.getIcon());
         b1.setButtonType(TMP);
+        /*b1.setIcon(new ImageIcon(new
+                ImageIcon("images/" + b1.getButtonType()).getImage().
+                getScaledInstance(60, 60, Image.SCALE_DEFAULT)));*/
         b1.setIcon(new ImageIcon(new
-                ImageIcon("images/"+b1.getButtonType()).getImage().
+                ImageIcon(getClass().getClassLoader().getResource(b1.getButtonType())).getImage().
                 getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
     }
 }
