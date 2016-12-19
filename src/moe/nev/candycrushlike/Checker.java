@@ -22,10 +22,9 @@ public abstract class Checker implements Runnable {
         this.width = widthP;
         this.height = heightP;
         this.rowID = rowIDP;
-        this.toDelete = null;
         this.destroyer = destroyerP;
         this.lock = lockP;
-        toDelete = new ArrayList<>();
+        this.toDelete = new ArrayList<>();
         resetDetection();
     }
 
