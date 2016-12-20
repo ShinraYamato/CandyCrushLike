@@ -15,6 +15,10 @@ public class GravityPower implements Runnable {
     private Random rnd;
     private int score;
 
+    /**
+     * create a gravityPower object
+     * @param rndP
+     */
     public GravityPower(Random rndP) {
         this.isRunning = true;
         this.antiCollider = new Semaphore(0);
@@ -92,7 +96,7 @@ public class GravityPower implements Runnable {
     }
 
     /**
-     * supression + gravity routine dor horizontal checkers
+     * supression + gravity routine for horizontal checkers
      */
     private void suppressionH() {
         for (int i = toDelete.getFirstDetected(); i <= toDelete.getLastDetected(); i++) {
@@ -107,7 +111,7 @@ public class GravityPower implements Runnable {
     }
 
     /**
-     * supression + gravity routine dor vertical checkers
+     * supression + gravity routine for vertical checkers
      */
     private void suppressionV() {
         for (int j = toDelete.getLastDetected(); j > (toDelete.getLastDetected() - toDelete.getFirstDetected()); j--) {
@@ -122,6 +126,12 @@ public class GravityPower implements Runnable {
         }
     }
 
+    /**
+     * return a button ID from x, y
+     * @param x
+     * @param y
+     * @return
+     */
     private int idFromXY(int x, int y) {
         return y * this.toDelete.getWidth() + x;
     }

@@ -1,13 +1,16 @@
 package moe.nev.candycrushlike;
 
 /**
- * Created by pierre.buffo on 21.11.16 at 21.11.16.
- * ${PACKAGE_NAME}
+ * Created by pierre.buffo on 21.11.16
  * CandyCrushLike
  */
 import java.util.*;
 import javax.swing.JFrame;
 public class Main {
+    /**
+     * crée et lance un JFrame contenant les boutons
+     * @param args
+     */
     public static void main(String[] args) {
         final Random rnd = new Random(System.currentTimeMillis());
         VueCrush vue = new VueCrush(rnd);
